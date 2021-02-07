@@ -1,0 +1,5 @@
+/* TODO: move to configs */
+
+.player-wrapper {
+    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+}
