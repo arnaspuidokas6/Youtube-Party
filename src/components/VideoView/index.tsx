@@ -1,24 +1,32 @@
+/* eslint-disable react/prop-types */
 import React, { FC } from 'react';
 import '../../tailwind.output.css';
 import ReactPlayer from 'react-player/lazy';
 import './index.css';
+import { IVideo } from '../../api/types';
 
-export const VideoView: FC = () => (
-    <>
-        <div className="relative player-wrapper">
-            <ReactPlayer
-                className="absolute top-0 left-0"
-                url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-                width="100%"
-                height="100%"
-                controls
-            />
+interface IVideoView {
+    selectedVideo: IVideo;
+}
+
+export const VideoView: FC<IVideoView> = ({ selectedVideo }) => {
+    return (
+        <div className="md:mb-5 sm:mb-5">
+            <div className="relative player-wrapper">
+                <ReactPlayer
+                    className="absolute top-0 left-0"
+                    url={`https://www.youtube.com/watch?v=${selectedVideo?.id?.videoId ?? '19MktOPwClE'}`}
+                    width="100%"
+                    height="100%"
+                    controls
+                />
+            </div>
+            <h1 className="mt-5 font-bold">{selectedVideo?.snippet?.title ?? 'No title'}</h1>
+            <p className="mt-5">{selectedVideo?.snippet?.description ?? 'No description'}</p>
+            <p className="mt-5">
+                <span className="font-bold">Uploaded by: </span>
+                {selectedVideo?.snippet?.channelTitle ?? 'no data'}
+            </p>
         </div>
-        <h1>Title</h1>
-        <p>
-            One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s when an unknown printer
-            took a galley of type and scrambled it to make a type specimen book it has?
-        </p>
-    </>
-);
+    );
+};

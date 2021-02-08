@@ -17,6 +17,7 @@ export const Main: FC = () => {
     const [searchValue, setSearchValue] = useState<string>(DEFAULT_SEARCH_VALUE);
     const [searchError, setSearchError] = useState<boolean>(false);
     const [videoLimit, setVideoLimit] = useState<number>(20);
+    const [selectedVideo, setSelectedVideo] = useState<IVideo>({} as IVideo);
 
     const handleSearchChange = (event: { target: { value: string } }) => {
         const typedValue = event.target.value;
@@ -47,13 +48,13 @@ export const Main: FC = () => {
             <SearchBar onChange={handleSearchChange} isValid={!searchError} />
             <div className="grid grid-cols-1 lg:grid-cols-3 p-5">
                 <div className="col-span-2">
-                    <VideoView />
+                    <VideoView selectedVideo={selectedVideo} />
                 </div>
                 <div className="col-span-1 lg:ml-5">
                     {videosList?.length ? (
                         <>
                             {videosList?.map((props, index) => (
-                                <VideoItem video={props} key={index} />
+                                <VideoItem setSelectedVideo={setSelectedVideo} video={props} key={index} />
                             ))}
                         </>
                     ) : (
