@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import '../../tailwind.output.css';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy';
 import './index.css';
 
 export const VideoView: FC = () => (
@@ -11,6 +11,7 @@ export const VideoView: FC = () => (
                 url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
                 width="100%"
                 height="100%"
+                controls
             />
         </div>
         <h1>Title</h1>
