@@ -1,12 +1,22 @@
-import React, { FC, useState } from 'react';
+import debounce from 'lodash.debounce';
+import React, { FC, useEffect, useState } from 'react';
+import { DEFAULT_LIST_ITEMS } from '../../api/constants';
+import { fetchVideos } from '../../api/fetchVideos';
+import { IVideo } from '../../api/types';
 import { SearchBar } from '../../components/SearchBar';
+import { VideoItem } from '../../components/VideoItem';
 import { VideoView } from '../../components/VideoView';
 import { SEARCH_MAXIMUM_COUNT } from '../../constants';
 import '../../tailwind.output.css';
 
+const DEFAULT_SEARCH_VALUE = 'happy';
+const DEBOUNCE_COUNT = 100;
+
 export const Main: FC = () => {
-    const [searchValue, setSearchValue] = useState<string>('');
+    const [videosList, setVideosList] = useState<IVideo[]>([]);
+    const [searchValue, setSearchValue] = useState<string>(DEFAULT_SEARCH_VALUE);
     const [searchError, setSearchError] = useState<boolean>(false);
+    const [videoLimit, setVideoLimit] = useState<number>(20);
 
     const handleSearchChange = (event: { target: { value: string } }) => {
         const typedValue = event.target.value;
@@ -20,6 +30,18 @@ export const Main: FC = () => {
         setSearchValue(typedValue);
     };
 
+    useEffect(() => {
+        searchValue &&
+            fetchVideos({ searchValue, limit: videoLimit }).then((newGifsList) => setVideosList(newGifsList));
+    }, [searchValue, videoLimit]);
+
+    window.onscroll = debounce(() => {
+        if (searchError) return;
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+            setVideoLimit((limit) => limit + DEFAULT_LIST_ITEMS);
+        }
+    }, DEBOUNCE_COUNT);
+
     return (
         <>
             <SearchBar onChange={handleSearchChange} isValid={!searchError} />
@@ -28,47 +50,15 @@ export const Main: FC = () => {
                     <VideoView />
                 </div>
                 <div className="col-span-1 lg:ml-5">
-                    One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                    typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s when
-                    an unknown printer took a galley of type and scrambled it to make a type specimen book it has?
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div className="mt-8">
-                        One of many rows: What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and
-                        typesetting industry Lorem Ipsum has been the industry standard dummy text ever since the 1500s
-                        when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-                        has?
-                    </div>
-                    <div>One of many rows</div>
-                    <div>One of many rows</div>
+                    {videosList?.length ? (
+                        <>
+                            {videosList?.map((props, index) => (
+                                <VideoItem video={props} key={index} />
+                            ))}
+                        </>
+                    ) : (
+                        <>No items</>
+                    )}
                 </div>
             </div>
         </>
