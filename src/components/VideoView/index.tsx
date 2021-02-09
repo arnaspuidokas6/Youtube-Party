@@ -3,13 +3,10 @@ import React, { FC } from 'react';
 import '../../tailwind.output.css';
 import ReactPlayer from 'react-player/lazy';
 import './index.css';
-import { IVideo } from '../../api/types';
+import { useVideosContext } from '../../pages';
 
-interface IVideoView {
-    selectedVideo: IVideo;
-}
-
-export const VideoView: FC<IVideoView> = ({ selectedVideo }) => {
+export const VideoView: FC = () => {
+    const { selectedVideo } = useVideosContext();
     return (
         <div className="md:mb-5 sm:mb-5">
             <div className="relative player-wrapper">
