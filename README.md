@@ -1,9 +1,4 @@
-[![]()](https://youtube-party.com)
-
-# [gif-party](https://youtube-party.arnas.org)
-
-View the project live at [](https://yotuube-party.com)
-
+# Task 2
 ## Setup
 
 ```sh
