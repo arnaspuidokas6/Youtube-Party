@@ -2,8 +2,8 @@
 ## Setup
 
 ```sh
-git clone https://github.com/arnasp13/Youtube-Party.git
-# or:  git clone git@github.com:arnasp13/Youtube-Party.git
+git clone https://github.com/arnaspuidokas6/Youtube-Party.git
+# or:  git clone git@github.com:arnaspuidokas6/Youtube-Party.git
 
 cd Youtube-Party
 
