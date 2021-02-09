@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable react/prop-types */
 import React, { createContext, Dispatch, FC, SetStateAction, useContext } from 'react';
 import { IVideo } from '../api/types';
 
@@ -10,6 +7,7 @@ const EMPTY_VOID = () => {};
 
 interface IVideosContext {
     setSearchValue: Dispatch<SetStateAction<string>>;
+    searchValue?: string;
     setSelectedVideo: Dispatch<SetStateAction<IVideo>>;
     videosList: IVideo[];
     selectedVideo: IVideo;
@@ -36,12 +34,14 @@ export const VideosListPage: FC<IVideosContext> = ({
     videosList,
     selectedVideo,
     children,
+    searchValue,
 }) => {
     const context: IVideosContext = {
         setSearchValue,
         videosList,
         setSelectedVideo,
         selectedVideo,
+        searchValue,
     };
     return <VideosListContext.Provider value={context}>{children}</VideosListContext.Provider>;
 };

@@ -8,7 +8,6 @@ interface ILoadMoreItems {
     setVideoLimit: Dispatch<SetStateAction<number>>;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const loadMoreItems = ({ setVideoLimit }: ILoadMoreItems) => {
     window.onscroll = debounce(() => {
         if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {

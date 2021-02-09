@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { FC } from 'react';
 import { IVideo } from '../../api/types';
 import { useVideosContext } from '../../pages';

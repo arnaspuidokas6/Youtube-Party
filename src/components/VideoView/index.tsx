@@ -1,18 +1,27 @@
-/* eslint-disable react/prop-types */
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import '../../tailwind.output.css';
 import ReactPlayer from 'react-player/lazy';
 import './index.css';
 import { useVideosContext } from '../../pages';
+import { postViewedVideo } from '../../api/postViewedVideo';
 
 export const VideoView: FC = () => {
     const { selectedVideo } = useVideosContext();
+
+    useEffect(() => {
+        postViewedVideo({
+            videoTitle: selectedVideo?.snippet?.title,
+            videoId: selectedVideo?.id?.videoId,
+            channelTitle: selectedVideo?.snippet?.channelTitle,
+        });
+    }, [selectedVideo]);
+
     return (
         <div className="md:mb-5 sm:mb-5">
             <div className="relative player-wrapper">
                 <ReactPlayer
                     className="absolute top-0 left-0"
-                    url={`https://www.youtube.com/watch?v=${selectedVideo?.id?.videoId ?? '19MktOPwClE'}`}
+                    url={`https://www.youtube.com/watch?v=${selectedVideo?.id?.videoId ?? 'ZbZSe6N_BXs'}`}
                     width="100%"
                     height="100%"
                     controls
