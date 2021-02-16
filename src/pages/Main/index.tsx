@@ -10,9 +10,9 @@ import { IVideo } from '../../api/types';
 import { SearchBar } from '../../components/SearchBar';
 import { VideoItem } from '../../components/VideoItem';
 import { VideoView } from '../../components/VideoView';
-import { DEFAULT_SEARCH_VALUE } from '../../constants';
 import '../../tailwind.output.css';
 
+const DEFAULT_SEARCH_VALUE = 'happy';
 
 export const Main: FC = () => {
     const [videosList, setVideosList] = useState<IVideo[]>([]);
@@ -34,11 +34,22 @@ export const Main: FC = () => {
         searchValue && postSearchValues({ searchValue });
     }, [videosList]);
 
-    window.onscroll = debounce(() => {
-        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+    const handleScroll = () => {
+        const bottom = Math.ceil(window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight;
+        if (bottom) {
             setVideoLimit((limit) => limit + DEFAULT_LIST_ITEMS);
         }
-    }, 100);
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     return (
         <VideosListPage
