@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Video Item should render video 1`] = `
+<body>
+  <div>
+    <div
+      class="flex flex-wrap w-full mb-3"
+    >
+      <img
+        class="w-1/2 cursor-pointer"
+        src="https://www.youtube.com/watch?v=EFVcKWFajHI"
+      />
+      <div
+        class="w-1/2 pl-2"
+      >
+        <h3
+          class="text-base mb-2"
+        >
+          Random video title
+        </h3>
+        <p
+          class="text-sm text-grey-darken mb-1"
+        >
+          Random channel title
+        </p>
+      </div>
+    </div>
+  </div>
+</body>
+`;

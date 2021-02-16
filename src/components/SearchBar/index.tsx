@@ -27,6 +27,7 @@ export const SearchBar: FC = () => {
                     <input
                         type="search"
                         name="search"
+                        data-testid="search-input"
                         onChange={handleSearchChange}
                         placeholder="Search"
                         className={`sm:text-base relative w-full rounded-full border focus:outline-none py-2 pr-2 pl-12 ${

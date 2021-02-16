@@ -1,5 +1,7 @@
+import debounce from 'lodash.debounce';
 import React, { FC, useEffect, useState } from 'react';
 import { VideosListPage } from '..';
+import { DEFAULT_LIST_ITEMS } from '../../api/constants';
 import { fetchVideos } from '../../api/fetchVideos';
 import { fetchViewedVideos } from '../../api/fetchViewedVideos';
 import { postSearchValues } from '../../api/postSearchValue';
@@ -8,10 +10,9 @@ import { IVideo } from '../../api/types';
 import { SearchBar } from '../../components/SearchBar';
 import { VideoItem } from '../../components/VideoItem';
 import { VideoView } from '../../components/VideoView';
+import { DEFAULT_SEARCH_VALUE } from '../../constants';
 import '../../tailwind.output.css';
-import { loadMoreItems } from '../../tools/loadMoreItems';
 
-const DEFAULT_SEARCH_VALUE = 'happy';
 
 export const Main: FC = () => {
     const [videosList, setVideosList] = useState<IVideo[]>([]);
@@ -33,7 +34,11 @@ export const Main: FC = () => {
         searchValue && postSearchValues({ searchValue });
     }, [videosList]);
 
-    loadMoreItems({ setVideoLimit });
+    window.onscroll = debounce(() => {
+        if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
+            setVideoLimit((limit) => limit + DEFAULT_LIST_ITEMS);
+        }
+    }, 100);
 
     return (
         <VideosListPage
