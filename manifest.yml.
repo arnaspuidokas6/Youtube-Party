@@ -1,0 +1,6 @@
+applications:
+- buildpack: https://github.com/arnaspuidokas6/Youtube-Party.git
+  host: youtube-party-Pwf9J5jNrh
+  name: youtube-party-Pwf9J5jNrh
+  memory: 64M
+  stack: cflinuxfs2
